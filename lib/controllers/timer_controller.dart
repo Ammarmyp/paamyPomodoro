@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 class TimerController extends GetxController {
-  var remaingTime = 1500.obs;
+  var remainingTime = 1500.obs;
   var isRunning = false.obs;
 
   void startTimer() {
@@ -16,16 +16,16 @@ class TimerController extends GetxController {
   }
 
   void resetTimer() {
-    remaingTime.value = 1500;
+    remainingTime.value = 1500;
     isRunning.value = false;
   }
 
   void updateTimer() async {
-    while (isRunning.value && remaingTime.value > 0) {
+    while (isRunning.value && remainingTime.value > 0) {
       await Future.delayed(const Duration(seconds: 1));
-      remaingTime.value--;
+      remainingTime.value--;
     }
-    if (remaingTime.value == 0) {
+    if (remainingTime.value == 0) {
       isRunning.value = false;
     }
   }
