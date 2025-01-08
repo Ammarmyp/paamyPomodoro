@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:paamy_pomodorro/components/theme_toggler.dart';
+import 'package:paamy_pomodorro/controllers/theme_controller.dart';
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  MyHomePage({
+    super.key,
+  });
+  final ThemeController themeController = Get.find<ThemeController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(title),
+        title: const Text("Home page"),
       ),
-      body: const Center(child: Text("home page")),
+      body: Center(
+        child: Column(
+          children: [
+            Text(themeController.theme == ThemeMode.dark ? "Dark" : "Light"),
+            ThemeToggler()
+          ],
+        ),
+      ),
     );
   }
 }
