@@ -14,6 +14,12 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home page"),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: ThemeToggler(),
+          ),
+        ],
       ),
       body: Center(
         child: Column(
