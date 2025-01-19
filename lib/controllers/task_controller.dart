@@ -1,15 +1,14 @@
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:paamy_pomodorro/models/task_model.dart';
 
 class TaskController extends GetxController {
   final taskBox = Hive.box<TaskModel>('tasks');
   var tasks = <TaskModel>[].obs;
 
-  void addTask(String title) {
-    final task = TaskModel(title: title);
-    taskBox.add(task);
-    tasks.add(task);
+  void addTask(TaskModel taskItem) {
+    taskBox.add(taskItem);
+    tasks.add(taskItem);
   }
 
   void deleteTask(TaskModel task) {

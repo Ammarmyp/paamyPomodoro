@@ -31,7 +31,10 @@ class MyHomePage extends StatelessWidget {
           child: Center(
             child: Obx(() {
               return SleekCircularSlider(
-                appearance: CircularSliderAppearance(),
+                appearance: CircularSliderAppearance(
+                    size: 40,
+                    customColors: CustomSliderColors(),
+                    customWidths: CustomSliderWidths()),
                 initialValue: timerController.remainingTime.value / 1500 * 100,
                 onChangeEnd: (value) => timerController.updateTimer(),
                 onChange: (value) {},
