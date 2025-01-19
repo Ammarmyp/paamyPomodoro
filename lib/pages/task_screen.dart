@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:paamy_pomodorro/components/theme_toggler.dart';
 import 'package:paamy_pomodorro/models/task_model.dart';
 import '../controllers/task_controller.dart';
 
@@ -11,7 +12,10 @@ class TaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Tasks")),
+      appBar: AppBar(
+        title: const Text("Tasks"),
+        actions: [ThemeToggler()],
+      ),
       body: Obx(() {
         return ListView.builder(
           itemCount: taskController.tasks.length,

@@ -13,8 +13,8 @@ class ThemeToggler extends StatelessWidget {
       child: Obx(() {
         return Icon(
           themeController.themeMode.value == ThemeMode.dark
-              ? Icons.dark_mode
-              : Icons.light_mode,
+              ? Icons.light_mode
+              : Icons.dark_mode,
         );
       }),
     );
