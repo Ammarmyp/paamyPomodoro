@@ -69,6 +69,8 @@ class MyHomePage extends StatelessWidget {
                   ),
                 )
               : ListView.builder(
+                  physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
                   padding: const EdgeInsets.all(16.0),
                   itemCount: taskController.tasks.length,
                   itemBuilder: (context, index) {
