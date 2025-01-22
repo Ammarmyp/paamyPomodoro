@@ -15,6 +15,7 @@ class ThemeToggler extends StatelessWidget {
           themeController.themeMode.value == ThemeMode.dark
               ? Icons.light_mode
               : Icons.dark_mode,
+          color: Theme.of(context).colorScheme.onSurface,
         );
       }),
     );

@@ -24,12 +24,15 @@ class AppTheme {
     primaryColor: liquidLava,
     scaffoldBackgroundColor: snow,
     appBarTheme: const AppBarTheme(
-      backgroundColor: liquidLava,
+      backgroundColor: Colors.transparent,
       foregroundColor: snow,
     ),
     buttonTheme: const ButtonThemeData(
       buttonColor: liquidLava,
       textTheme: ButtonTextTheme.primary,
+    ),
+    iconTheme: const IconThemeData(
+      color: slateGrey,
     ),
   );
 
@@ -48,12 +51,15 @@ class AppTheme {
     primaryColor: liquidLava,
     scaffoldBackgroundColor: gluonGrey,
     appBarTheme: const AppBarTheme(
-      backgroundColor: darkVoid,
+      backgroundColor: Colors.transparent,
       foregroundColor: snow,
     ),
     buttonTheme: const ButtonThemeData(
       buttonColor: liquidLava,
       textTheme: ButtonTextTheme.primary,
+    ),
+    iconTheme: const IconThemeData(
+      color: snow,
     ),
   );
 }
