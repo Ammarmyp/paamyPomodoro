@@ -6,7 +6,6 @@ import 'package:paamy_pomodorro/controllers/theme_controller.dart';
 import 'package:paamy_pomodorro/controllers/timer_controller.dart';
 import 'package:paamy_pomodorro/models/task_model.dart';
 import 'package:paamy_pomodorro/pages/my_home_page.dart';
-import 'package:paamy_pomodorro/pages/task_screen.dart';
 import 'package:paamy_pomodorro/utils/theme.dart';
 
 void main() async {

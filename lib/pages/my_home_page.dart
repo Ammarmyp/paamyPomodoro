@@ -88,13 +88,37 @@ class MyHomePage extends StatelessWidget {
               context: context,
               builder: (context) {
                 final titleController = TextEditingController();
+                final tagsController = TextEditingController();
+                final descriptionController = TextEditingController();
+                final List<String> items = ["low", "medium", "high"];
                 return AlertDialog(
                   title: const Text("Add Task"),
-                  content: TextField(
-                    controller: titleController,
-                    decoration: const InputDecoration(
-                      hintText: "Enter task title",
-                    ),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        controller: titleController,
+                        decoration: const InputDecoration(
+                          hintText: "Enter task title",
+                        ),
+                      ),
+                      TextField(
+                        controller: descriptionController,
+                        decoration: const InputDecoration(
+                          hintText: "Enter task description here",
+                        ),
+                      ),
+                      DropdownButton<String>(
+                        hint: const Text("Select priority"),
+                        items: items.map((item) {
+                          return DropdownMenuItem(
+                              value: item, child: Text(item));
+                        }).toList(),
+                        onChanged: (value) {
+                          tagsController.text = value!;
+                        },
+                      ),
+                    ],
                   ),
                   actions: [
                     TextButton(
@@ -107,6 +131,8 @@ class MyHomePage extends StatelessWidget {
                           titleController.text.trim(),
                           DateTime.now(),
                           false,
+                          tagsController.text.trim(),
+                          descriptionController.text.trim(),
                         );
                         taskController.addTask(task);
                         Get.back();

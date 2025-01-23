@@ -49,10 +49,10 @@ class TaskScreen extends StatelessWidget {
                 actions: [
                   TextButton(
                     onPressed: () {
-                      var task = TaskModel(
-                          titleController.text, DateTime.now(), false);
-                      taskController.addTask(task);
-                      Get.back();
+                      // var task = TaskModel(
+                      //     titleController.text, DateTime.now(), false);
+                      // taskController.addTask(task);
+                      // Get.back();
                     },
                     child: const Text("Add"),
                   ),

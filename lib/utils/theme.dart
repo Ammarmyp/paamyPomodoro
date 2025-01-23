@@ -4,10 +4,11 @@ class AppTheme {
   //  custom colors
   static const Color darkVoid = Color(0xFF151419);
   static const Color liquidLava = Color(0xFFF56E0F);
-  static const Color gluonGrey = Color(0xFF1B1B1E);
+  static const Color gluonGrey = Color(0xFF1B1B1B);
   static const Color slateGrey = Color(0xFF262626);
   static const Color dustyGrey = Color(0xFF878787);
   static const Color snow = Color(0xFFFBFBFB);
+  static const Color darkSnow = Color(0xFFE5E5E5);
 
   static final ThemeData lightTheme = ThemeData(
     colorScheme: ColorScheme.light(
@@ -15,7 +16,7 @@ class AppTheme {
       onPrimary: snow,
       secondary: dustyGrey,
       onSecondary: snow,
-      surface: snow,
+      surface: darkSnow,
       onSurface: slateGrey,
       error: Colors.red.shade800,
       onError: Colors.white,

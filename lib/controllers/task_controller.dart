@@ -29,6 +29,7 @@ class TaskController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    // taskBox.clear();
     loadTasks();
   }
 }
