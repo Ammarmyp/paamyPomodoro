@@ -41,10 +41,28 @@ dependencies:
   build_runner: ^2.4.13
   flutter_slidable: ^3.1.2
   sleek_circular_slider: ^2.0.1
-  flutter_launcher_icons: ^0.14.2
+  flutter_launcher_icons: ^0.14.3
   get_storage: ^2.1.1
   lucide_icons: ^0.257.0
   font_awesome_flutter: ^10.8.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: false
+    image_path: "assets/images/icon.png"
+    background_color: "#000000"
+    theme_color: "#000000"
+  windows:
+    generate: false
+    image_path: "assets/images/icon.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: false
+    image_path: "assets/images/icon.png"
 
 dev_dependencies:
   flutter_test:

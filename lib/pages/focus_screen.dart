@@ -5,9 +5,23 @@ class FocusScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text("Focus Screen"),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'New features are coming soon!',
+              style: TextStyle(
+                fontSize: 30,
+                overflow: TextOverflow.ellipsis,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
