@@ -4,6 +4,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:paamy_pomodorro/components/task_card.dart';
 import 'package:paamy_pomodorro/components/theme_toggler.dart';
 import 'package:paamy_pomodorro/models/task_model.dart';
+
 import '../controllers/task_controller.dart';
 
 class TaskScreen extends StatelessWidget {
@@ -27,6 +28,7 @@ class TaskScreen extends StatelessWidget {
           ),
           actions: [
             ThemeToggler(),
+            const SizedBox(width: 10),
             IconButton(
               icon: Icon(
                 LucideIcons.settings,
@@ -64,18 +66,51 @@ class TaskScreen extends StatelessWidget {
                     ],
                   ),
                 )
-              : ListView.builder(
-                  physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
-                  padding: const EdgeInsets.all(16.0),
-                  itemCount: taskController.tasks.length,
-                  itemBuilder: (context, index) {
-                    final task = taskController.tasks[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: TaskCard(task: task),
-                    );
-                  },
+              : Column(
+                  children: [
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(
+                          LucideIcons.arrowLeft,
+                          size: 18,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "swipe for actions",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics()),
+                        padding: const EdgeInsets.all(16.0),
+                        itemCount: taskController.tasks.length,
+                        itemBuilder: (context, index) {
+                          final task = taskController.tasks[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: TaskCard(task: task),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 );
         }),
         floatingActionButton: FloatingActionButton(

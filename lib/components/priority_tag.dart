@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:paamy_pomodorro/utils/priority_colors.dart';
 
