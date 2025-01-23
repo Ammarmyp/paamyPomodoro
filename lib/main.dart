@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:paamy_pomodorro/controllers/navigation_controller.dart';
 import 'package:paamy_pomodorro/controllers/task_controller.dart';
 import 'package:paamy_pomodorro/controllers/theme_controller.dart';
 import 'package:paamy_pomodorro/controllers/timer_controller.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
   final ThemeController themeController = Get.put(ThemeController());
   final TimerController timerController = Get.put(TimerController());
   final TaskController taskController = Get.put(TaskController());
+  final NavigationController navController = Get.put(NavigationController());
 
   @override
   Widget build(BuildContext context) {

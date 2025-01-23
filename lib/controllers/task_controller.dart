@@ -11,6 +11,20 @@ class TaskController extends GetxController {
     tasks.add(taskItem);
   }
 
+  void updateTask(TaskModel task) {
+    final editableTask = taskBox.values.firstWhere(
+      (t) => t.key == task.key,
+    );
+
+    editableTask.title = task.title;
+    editableTask.description = task.description;
+    editableTask.priority = task.priority;
+
+    editableTask.save();
+
+    tasks.refresh();
+  }
+
   void deleteTask(TaskModel task) {
     task.delete();
     tasks.remove(task);

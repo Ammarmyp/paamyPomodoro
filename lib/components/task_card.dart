@@ -28,7 +28,74 @@ class TaskCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           SlidableAction(
-            onPressed: (context) {},
+            onPressed: (context) {
+              final titleController = TextEditingController();
+              final tagsController = TextEditingController();
+              final descriptionController = TextEditingController();
+              final List<String> items = ["low", "medium", "high"];
+
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text("Add Task"),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextField(
+                            controller: titleController,
+                            decoration: const InputDecoration(
+                              hintText: "Enter task title",
+                            ),
+                          ),
+                          TextField(
+                            controller: descriptionController,
+                            decoration: const InputDecoration(
+                              hintText: "Enter task description here",
+                            ),
+                          ),
+                          DropdownButton<String>(
+                            hint: const Text("Select priority"),
+                            items: items.map((item) {
+                              return DropdownMenuItem(
+                                  value: item, child: Text(item));
+                            }).toList(),
+                            onChanged: (value) {
+                              tagsController.text = value!;
+                            },
+                          ),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            if (titleController.text.trim().isEmpty) {
+                              Get.snackbar(
+                                  "Error", "Task title cannot be empty");
+                              return;
+                            }
+                            var task = TaskModel(
+                              titleController.text.trim(),
+                              DateTime.now(),
+                              false,
+                              tagsController.text.trim(),
+                              descriptionController.text.trim(),
+                            );
+                            taskController.updateTask(task);
+                            Get.back();
+                          },
+                          child: const Text("Add"),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text("Cancel"),
+                        ),
+                      ],
+                    );
+                  });
+            },
             icon: LucideIcons.edit,
             backgroundColor: AppTheme.lightBlue.withOpacity(0.9),
             borderRadius: BorderRadius.circular(10),

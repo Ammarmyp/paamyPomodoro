@@ -7,7 +7,7 @@ enum Priority { high, medium, low }
 @HiveType(typeId: 0)
 class TaskModel extends HiveObject {
   @HiveField(0)
-  final String title;
+  late String title;
 
   @HiveField(1)
   final DateTime createdAt;
@@ -15,7 +15,7 @@ class TaskModel extends HiveObject {
   @HiveField(2)
   bool isCompleted = false;
   @HiveField(3)
-  final String priority;
+  late String priority;
   @HiveField(4)
   String? description;
 
