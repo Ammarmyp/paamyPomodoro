@@ -9,16 +9,18 @@ class AppTheme {
   static const Color dustyGrey = Color(0xFF878787);
   static const Color snow = Color(0xFFFBFBFB);
   static const Color darkSnow = Color(0xFFE5E5E5);
+  static const Color brightRed = Color(0xFFFF2C2C);
+  static const Color lightBlue = Color(0xFF5FAEF8);
 
   static final ThemeData lightTheme = ThemeData(
-    colorScheme: ColorScheme.light(
+    colorScheme: const ColorScheme.light(
       primary: liquidLava,
       onPrimary: snow,
       secondary: dustyGrey,
       onSecondary: snow,
       surface: darkSnow,
       onSurface: slateGrey,
-      error: Colors.red.shade800,
+      error: brightRed,
       onError: Colors.white,
     ),
     brightness: Brightness.light,
@@ -38,14 +40,14 @@ class AppTheme {
   );
 
   static final ThemeData darkTheme = ThemeData(
-    colorScheme: ColorScheme.dark(
+    colorScheme: const ColorScheme.dark(
       primary: liquidLava,
       onPrimary: darkVoid,
       secondary: dustyGrey,
       onSecondary: darkVoid,
       surface: slateGrey,
       onSurface: snow,
-      error: Colors.red.shade300,
+      error: brightRed,
       onError: darkVoid,
     ),
     brightness: Brightness.dark,

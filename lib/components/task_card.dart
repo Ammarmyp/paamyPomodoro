@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:paamy_pomodorro/components/priority_tag.dart';
 import 'package:paamy_pomodorro/controllers/task_controller.dart';
 import 'package:paamy_pomodorro/models/task_model.dart';
 import 'package:paamy_pomodorro/utils/priority_colors.dart';
+import 'package:paamy_pomodorro/utils/theme.dart';
 
 class TaskCard extends StatelessWidget {
   final TaskModel task;
@@ -12,8 +15,26 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onLongPress: () => taskController.deleteTask(task),
+    return Slidable(
+      endActionPane: ActionPane(
+        motion: const StretchMotion(),
+        children: [
+          SlidableAction(
+            onPressed: (context) {
+              taskController.deleteTask(task);
+            },
+            icon: LucideIcons.trash2,
+            backgroundColor: AppTheme.brightRed.withOpacity(0.9),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          SlidableAction(
+            onPressed: (context) {},
+            icon: LucideIcons.edit,
+            backgroundColor: AppTheme.lightBlue.withOpacity(0.9),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ],
+      ),
       child: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 7,
