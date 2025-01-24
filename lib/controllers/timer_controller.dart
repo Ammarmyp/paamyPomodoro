@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 class TimerController extends GetxController {
   var remainingTime = 1500.obs;
   var isRunning = false.obs;
+  var focusTime = 25.obs;
   int? startTime;
 
   Box? timerBox;
@@ -57,7 +58,7 @@ class TimerController extends GetxController {
 
   void resetTimer() {
     isRunning.value = false;
-    remainingTime.value = 1500;
+    remainingTime.value = focusTime.value * 60;
     saveTimerState();
   }
 
@@ -65,6 +66,7 @@ class TimerController extends GetxController {
     timerBox?.put("remainingTime", remainingTime.value);
     timerBox?.put("isRunning", isRunning.value);
     timerBox?.put("startTime", startTime);
+    timerBox?.put("focusTime", focusTime.value);
   }
 
   void loadTimerState() {
@@ -72,6 +74,7 @@ class TimerController extends GetxController {
         timerBox?.get("remainingTime", defaultValue: 1500) ?? 1500;
     isRunning.value = timerBox?.get("isRunning", defaultValue: false) ?? false;
     startTime = timerBox?.get("startTime", defaultValue: null);
+    focusTime.value = timerBox?.get("focusTime", defaultValue: 25) ?? 25;
 
     if (isRunning.value) {
       int elapsedTime =
@@ -83,5 +86,11 @@ class TimerController extends GetxController {
         startTimer();
       }
     }
+  }
+
+  void setFocusTime(int minutes) {
+    focusTime.value = minutes;
+    remainingTime.value = focusTime.value * 60;
+    saveTimerState();
   }
 }

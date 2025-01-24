@@ -11,43 +11,69 @@ class FocusScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Pomodoro Timer')),
-      body: Center(
-        child: Obx(() {
-          final minutes = (timerController.remainingTime.value ~/ 60)
-              .toString()
-              .padLeft(2, '0');
-          final seconds = (timerController.remainingTime.value % 60)
-              .toString()
-              .padLeft(2, '0');
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Timer Display
+            Obx(() => Text(
+                  formatTime(timerController.remainingTime.value),
+                  style: TextStyle(fontSize: 48),
+                )),
+            SizedBox(height: 20),
 
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '$minutes:$seconds',
-                style: TextStyle(fontSize: 48),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
+            // Focus Time Slider
+            Text("Set Focus Time (minutes):"),
+            Obx(() => Slider(
+                  value: timerController.focusTime.value.toDouble(),
+                  min: 5,
+                  max: 60,
+                  divisions: 11,
+                  label: "${timerController.focusTime.value} min",
+                  onChanged: (value) {
+                    timerController.setFocusTime(value.toInt());
+                  },
+                )),
+            SizedBox(height: 20),
+
+            // Control Buttons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Obx(
+                  () => ElevatedButton(
                     onPressed: timerController.isRunning.value
-                        ? timerController.pauseTimer
+                        ? null
                         : timerController.startTimer,
-                    child: Text(
-                        timerController.isRunning.value ? 'Pause' : 'Start'),
+                    child: Text("Start"),
                   ),
-                  SizedBox(width: 16),
-                  ElevatedButton(
-                    onPressed: timerController.resetTimer,
-                    child: Text('Reset'),
+                ),
+                SizedBox(width: 10),
+                Obx(
+                  () => ElevatedButton(
+                    onPressed: !timerController.isRunning.value
+                        ? null
+                        : timerController.pauseTimer,
+                    child: Text("Pause"),
                   ),
-                ],
-              ),
-            ],
-          );
-        }),
+                ),
+                SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: timerController.resetTimer,
+                  child: Text("Reset"),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  String formatTime(int seconds) {
+    final minutes = (seconds ~/ 60).toString().padLeft(2, "0");
+    final secs = (seconds % 60).toString().padLeft(2, "0");
+    return "$minutes:$secs";
   }
 }
