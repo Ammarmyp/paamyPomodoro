@@ -67,7 +67,7 @@ class MyHomePage extends StatelessWidget {
       case 0:
         return TaskScreen();
       case 1:
-        return const FocusScreen();
+        return FocusScreen();
       default:
         return const Center(
           child: Text("Page not found"),
