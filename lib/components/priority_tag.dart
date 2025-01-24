@@ -11,34 +11,36 @@ class PriorityTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8,
-        vertical: 4,
-      ),
-      decoration: BoxDecoration(
-        color: getPriorityColor(priority, context),
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Icon(
-            LucideIcons.flag,
-            size: 13,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-          const SizedBox(width: 5),
-          Text(
-            priority,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface,
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
+    return priority.isNotEmpty
+        ? Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 8,
+              vertical: 4,
             ),
-          ),
-        ],
-      ),
-    );
+            decoration: BoxDecoration(
+              color: getPriorityColor(priority, context),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Icon(
+                  LucideIcons.flag,
+                  size: 13,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                const SizedBox(width: 5),
+                Text(
+                  priority,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          )
+        : const SizedBox();
   }
 }
