@@ -5,7 +5,7 @@ class TimerController extends GetxController {
   var remainingTime = 1500.obs;
   var isRunning = false.obs;
   var focusTime = 25.obs;
-  var maxSliderValue = 6000.obs;
+  var sliderValue = 10.obs;
   int? startTime;
 
   Box? timerBox;
@@ -46,8 +46,7 @@ class TimerController extends GetxController {
   }
 
   void updateSlider(int minutes) {
-    focusTime.value = minutes;
-    remainingTime.value = minutes * 60;
+    sliderValue.value = minutes;
 
     saveTimerState();
   }
@@ -99,7 +98,6 @@ class TimerController extends GetxController {
   void setFocusTime(int minutes) {
     focusTime.value = minutes;
     remainingTime.value = minutes * 60;
-    maxSliderValue.value = minutes;
 
     saveTimerState();
   }

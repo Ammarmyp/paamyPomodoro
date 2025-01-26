@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:paamy_pomodorro/components/custom_btn.dart';
 import 'package:paamy_pomodorro/controllers/timer_controller.dart';
 
 class FocusScreen extends StatelessWidget {
@@ -20,28 +21,33 @@ class FocusScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Timer Display
-            Obx(() => Text(
-                  formatTime(timerController.remainingTime.value),
-                  style: const TextStyle(fontSize: 48),
+            Obx(() => TextButton(
+                  child: Text(
+                    formatTime(timerController.remainingTime.value),
+                    style: const TextStyle(fontSize: 48),
+                  ),
+                  onPressed: () => _showTimeInputDialog(context),
                 )),
             const SizedBox(height: 20),
 
-            ElevatedButton(
-              onPressed: () => _showTimeInputDialog(context),
-              child: const Text("Set Focus Time"),
+            CustomBtn(
+              onPressed: () => timerController.startTimer,
+              label: "Start",
             ),
 
             // Focus Time Slider
             const Text("Set Focus Time (minutes):"),
             Obx(
               () => Slider(
-                value: timerController.focusTime.value.toDouble(),
+                value: timerController.sliderValue.value.toDouble(),
                 min: 0,
-                max: timerController.maxSliderValue.value.toDouble(),
-                divisions: timerController.maxSliderValue.value ~/ 5,
-                label: "${timerController.focusTime.value} min",
-                onChanged: (value) {
-                  timerController.updateSlider(value.toInt());
+                max: 100,
+                divisions: 20,
+                label: "${timerController.sliderValue.value} min",
+                onChanged: (value) =>
+                    timerController.updateSlider(value.toInt()),
+                onChangeEnd: (value) {
+                  timerController.setFocusTime(value.toInt());
                 },
               ),
             ),
