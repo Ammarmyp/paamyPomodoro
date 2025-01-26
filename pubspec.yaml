@@ -45,6 +45,7 @@ dependencies:
   get_storage: ^2.1.1
   lucide_icons: ^0.257.0
   font_awesome_flutter: ^10.8.0
+  percent_indicator: ^4.2.4
 
 flutter_launcher_icons:
   android: "launcher_icon"
