@@ -6,6 +6,7 @@ class TimerController extends GetxController {
   var isRunning = false.obs;
   var focusTime = 25.obs;
   var sliderValue = 10.obs;
+  var isPaused = false.obs;
   int? startTime;
 
   Box? timerBox;
@@ -21,6 +22,7 @@ class TimerController extends GetxController {
   void startTimer() {
     if (!isRunning.value) {
       isRunning.value = true;
+      isPaused.value = false;
       startTime = DateTime.now().millisecondsSinceEpoch;
 
       saveTimerState();
@@ -54,12 +56,14 @@ class TimerController extends GetxController {
   void pauseTimer() {
     if (isRunning.value) {
       isRunning.value = false;
+      isPaused.value = true;
       saveTimerState();
     }
   }
 
   void stopTimer() {
     isRunning.value = false;
+    isPaused.value = false;
     saveTimerState();
   }
 
