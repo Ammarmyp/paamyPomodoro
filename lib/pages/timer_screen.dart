@@ -16,6 +16,9 @@ class TimerScreen extends StatelessWidget {
     return Obx(() => Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(
+              height: 50,
+            ),
             CircularPercentIndicator(
               radius: 160,
               circularStrokeCap: CircularStrokeCap.round,

@@ -4,7 +4,7 @@ import 'package:paamy_pomodorro/components/custom_btn.dart';
 import 'package:paamy_pomodorro/controllers/timer_controller.dart';
 import 'package:paamy_pomodorro/pages/timer_screen.dart';
 import 'package:paamy_pomodorro/utils/format_time.dart';
-import 'package:paamy_pomodorro/utils/theme.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class FocusScreen extends StatelessWidget {
   FocusScreen({super.key});
@@ -15,7 +15,14 @@ class FocusScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Focus Mode'),
+        title: Text(
+          'Focus Mode',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onSurface,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
       ),
       body: Padding(
@@ -31,7 +38,10 @@ class FocusScreen extends StatelessWidget {
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Timer Display
+                        const SizedBox(
+                          height: 70,
+                        ),
+                        // Time Display
                         Obx(() => TextButton(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +51,7 @@ class FocusScreen extends StatelessWidget {
                                     formatTime(
                                         timerController.remainingTime.value),
                                     style: TextStyle(
-                                      fontSize: 55,
+                                      fontSize: 85,
                                       letterSpacing: 4,
                                       color: Theme.of(context)
                                           .colorScheme
@@ -62,17 +72,73 @@ class FocusScreen extends StatelessWidget {
                             )),
                         const SizedBox(height: 20),
 
-                        CustomBtn(
-                          onPressed: () => timerController.startTimer,
-                          label: "Start",
-                          width: 100,
-                          borderRadius: 10,
-                          textColor: AppTheme.gluonGrey,
+                        Obx(
+                          () => CustomBtn(
+                            onPressed: timerController.isRunning.value
+                                ? null
+                                : timerController.startTimer,
+                            label: "Start",
+                            textColor: Theme.of(context).colorScheme.surface,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 50,
+                              vertical: 15,
+                            ),
+                          ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 30),
+
+                        //*Custom focus times in a row of circles
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            CircularPercentIndicator(
+                              radius: 34,
+                              percent: 0.1,
+                              progressColor:
+                                  Theme.of(context).colorScheme.primary,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.surface,
+                              circularStrokeCap: CircularStrokeCap.round,
+                              animation: true,
+                              backgroundWidth: 4,
+                              lineWidth: 5,
+                              center: Text("10"),
+                            ),
+                            CircularPercentIndicator(
+                              radius: 34,
+                              percent: 0.81,
+                              progressColor:
+                                  Theme.of(context).colorScheme.primary,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.surface,
+                              circularStrokeCap: CircularStrokeCap.round,
+                              animation: true,
+                              backgroundWidth: 4,
+                              lineWidth: 5,
+                              center: Text("10"),
+                            ),
+                            CircularPercentIndicator(
+                              radius: 34,
+                              percent: 0.51,
+                              progressColor:
+                                  Theme.of(context).colorScheme.primary,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.surface,
+                              circularStrokeCap: CircularStrokeCap.round,
+                              animation: true,
+                              backgroundWidth: 4,
+                              lineWidth: 5,
+                              center: Text("10"),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(
+                          height: 30,
+                        ),
 
                         // Focus Time Slider
-                        const Text("Set Focus Time (minutes):"),
                         Obx(
                           () => Slider(
                             value: timerController.sliderValue.value.toDouble(),
@@ -88,35 +154,6 @@ class FocusScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 20),
-
-                        // Control Buttons
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Obx(
-                              () => ElevatedButton(
-                                onPressed: timerController.isRunning.value
-                                    ? null
-                                    : timerController.startTimer,
-                                child: const Text("Start"),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Obx(
-                              () => ElevatedButton(
-                                onPressed: !timerController.isRunning.value
-                                    ? null
-                                    : timerController.pauseTimer,
-                                child: Text("Pause"),
-                              ),
-                            ),
-                            SizedBox(width: 10),
-                            ElevatedButton(
-                              onPressed: timerController.resetTimer,
-                              child: Text("Reset"),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
             ),
