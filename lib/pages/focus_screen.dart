@@ -21,7 +21,10 @@ class FocusScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 20,
+          ),
           child: SingleChildScrollView(
             child: Obx(
               () => (timerController.isRunning.value ||
@@ -68,26 +71,39 @@ class FocusScreen extends StatelessWidget {
                         ),
 
                         const SizedBox(
-                          height: 10,
+                          height: 30,
                         ),
 
                         //controls
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            ElevatedButton(
+                            CustomBtn(
                               onPressed: timerController.stopTimer,
-                              child: Text("Cancel"),
+                              label: ("Cancel"),
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.surface,
                             ),
-                            const SizedBox(width: 10),
-                            ElevatedButton(
+                            CustomBtn(
                               onPressed: timerController.isPaused.value
                                   ? timerController.startTimer
                                   : timerController.pauseTimer,
-                              child: Text(timerController.isRunning.value
+                              label: (timerController.isRunning.value
                                   ? "Pause"
                                   : "Resume"),
+                              textColor: Theme.of(context).colorScheme.surface,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 40,
+                                vertical: 20,
+                              ),
                             ),
+                            CustomBtn(
+                                label: "Reset",
+                                onPressed: timerController.isPaused.value
+                                    ? timerController.resetTimer
+                                    : null,
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.surface),
                           ],
                         ),
                       ],
