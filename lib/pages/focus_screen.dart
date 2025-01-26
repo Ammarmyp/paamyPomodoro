@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:paamy_pomodorro/components/custom_btn.dart';
 import 'package:paamy_pomodorro/controllers/timer_controller.dart';
 import 'package:paamy_pomodorro/pages/timer_screen.dart';
@@ -89,55 +90,87 @@ class FocusScreen extends StatelessWidget {
 
                         //*Custom focus times in a row of circles
 
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CircularPercentIndicator(
-                              radius: 34,
-                              percent: 0.1,
-                              progressColor:
-                                  Theme.of(context).colorScheme.primary,
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.surface,
-                              circularStrokeCap: CircularStrokeCap.round,
-                              animation: true,
-                              backgroundWidth: 4,
-                              lineWidth: 5,
-                              center: Text("10"),
-                            ),
-                            CircularPercentIndicator(
-                              radius: 34,
-                              percent: 0.81,
-                              progressColor:
-                                  Theme.of(context).colorScheme.primary,
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.surface,
-                              circularStrokeCap: CircularStrokeCap.round,
-                              animation: true,
-                              backgroundWidth: 4,
-                              lineWidth: 5,
-                              center: Text("10"),
-                            ),
-                            CircularPercentIndicator(
-                              radius: 34,
-                              percent: 0.51,
-                              progressColor:
-                                  Theme.of(context).colorScheme.primary,
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.surface,
-                              circularStrokeCap: CircularStrokeCap.round,
-                              animation: true,
-                              backgroundWidth: 4,
-                              lineWidth: 5,
-                              center: Text("10"),
-                            ),
-                          ],
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: timerController.customSessions
+                                .asMap()
+                                .entries
+                                .map((entry) {
+                              int index = entry.key;
+                              int minutes = entry.value;
+                              double percentage =
+                                  timerController.isRunning.value
+                                      ? timerController.remainingTime.value /
+                                          (minutes * 60)
+                                      : 1.0;
+
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: GestureDetector(
+                                  onTap: () => timerController
+                                      .updateTimerForSession(index),
+                                  onLongPress: () => timerController
+                                      .removeCustomSession(index),
+                                  child: CircularPercentIndicator(
+                                    radius: 35,
+                                    percent:
+                                        percentage > 1.0 ? 1.0 : percentage,
+                                    progressColor: timerController
+                                                .selectedSession.value ==
+                                            index
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .onSurface
+                                            .withOpacity(0.2),
+                                    circularStrokeCap: CircularStrokeCap.round,
+                                    animation: true,
+                                    backgroundWidth: 3,
+                                    lineWidth: 4,
+                                    center: Text(
+                                      "$minutes",
+                                      style: TextStyle(
+                                          color: timerController
+                                                      .selectedSession.value ==
+                                                  index
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
                         ),
 
                         const SizedBox(
-                          height: 30,
+                          height: 15,
                         ),
 
+                        GestureDetector(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.surface,
+                                borderRadius: BorderRadius.circular(40)),
+                            width: 80,
+                            height: 80,
+                            alignment: Alignment.center,
+                            child: Icon(
+                              LucideIcons.plus,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                          onTap: () => _showAddSessionDialog(context),
+                        ),
                         // Focus Time Slider
                         Obx(
                           () => Slider(
@@ -199,6 +232,43 @@ class FocusScreen extends StatelessWidget {
               }
             },
             child: const Text("Set"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAddSessionDialog(BuildContext context) {
+    final TextEditingController _sessionController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Add Focus Session"),
+        content: TextField(
+          controller: _sessionController,
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            labelText: "Enter minutes",
+            border: OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              final int minutes = int.tryParse(_sessionController.text) ?? 0;
+              if (minutes > 0) {
+                timerController.addCustomSession(minutes);
+                Navigator.pop(context);
+              }
+            },
+            child: Text("Add"),
           ),
         ],
       ),

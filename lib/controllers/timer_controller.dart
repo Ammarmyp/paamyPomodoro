@@ -11,11 +11,13 @@ class TimerController extends GetxController {
 
   Box? timerBox;
 
+  RxList<int> customSessions = <int>[].obs;
+  RxInt selectedSession = 0.obs;
+
   @override
   void onInit() async {
     super.onInit();
     timerBox = await Hive.openBox('timerBox');
-
     loadTimerState();
   }
 
@@ -78,6 +80,7 @@ class TimerController extends GetxController {
     timerBox?.put("isRunning", isRunning.value);
     timerBox?.put("startTime", startTime);
     timerBox?.put("focusTime", focusTime.value);
+    timerBox?.put("customSessions", customSessions.toList());
   }
 
   void loadTimerState() {
@@ -86,6 +89,11 @@ class TimerController extends GetxController {
     isRunning.value = timerBox?.get("isRunning", defaultValue: false) ?? false;
     startTime = timerBox?.get("startTime", defaultValue: null);
     focusTime.value = timerBox?.get("focusTime", defaultValue: 25) ?? 25;
+
+    //*sessions
+
+    List<dynamic>? storedSessions =
+        timerBox?.get("customSessions", defaultValue: [20, 30, 40]);
 
     if (isRunning.value) {
       int elapsedTime =
@@ -104,5 +112,25 @@ class TimerController extends GetxController {
     remainingTime.value = minutes * 60;
 
     saveTimerState();
+  }
+
+  void updateTimerForSession(int sessionIndex) {
+    selectedSession.value = sessionIndex;
+    int timeInSeconds = customSessions[sessionIndex] * 60;
+    setFocusTime(timeInSeconds ~/ 60);
+  }
+
+  void addCustomSession(int minutes) {
+    if (!customSessions.contains(minutes)) {
+      customSessions.add(minutes);
+      timerBox?.put("customSessions", customSessions.toList());
+    }
+  }
+
+  void removeCustomSession(int index) {
+    if (index >= 0 && index < customSessions.length) {
+      customSessions.removeAt(index);
+      timerBox?.put("customSessions", customSessions.toList());
+    }
   }
 }
