@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:paamy_pomodorro/controllers/navigation_controller.dart';
@@ -29,6 +30,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () {
+        SystemChrome.setSystemUIOverlayStyle(
+          const SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.dark,
+          ),
+        );
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,

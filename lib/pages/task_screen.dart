@@ -14,178 +14,175 @@ class TaskScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-          title: Text(
-            "Tasks",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        title: Text(
+          "Tasks",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        ),
+        actions: [
+          ThemeToggler(),
+          const SizedBox(width: 10),
+          IconButton(
+            icon: Icon(
+              LucideIcons.settings,
+              size: 24,
               color: Theme.of(context).colorScheme.onSurface,
             ),
+            onPressed: () {
+              // Navigate to the settings screen
+              // Get.to(() =>  TaskScreen());
+            },
           ),
-          actions: [
-            ThemeToggler(),
-            const SizedBox(width: 10),
-            IconButton(
-              icon: Icon(
-                LucideIcons.settings,
-                size: 24,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-              onPressed: () {
-                // Navigate to the settings screen
-                // Get.to(() =>  TaskScreen());
-              },
-            ),
-          ],
-        ),
-        body: Obx(() {
-          return taskController.tasks.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/images/notask.png",
-                        width: 200,
-                        height: 200,
-                        fit: BoxFit.contain,
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        "Don't procrastinate, go ahead and add a task",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : Column(
+        ],
+      ),
+      body: Obx(() {
+        return taskController.tasks.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      height: 25,
+                    Image.asset(
+                      "assets/images/notask.png",
+                      width: 200,
+                      height: 200,
+                      fit: BoxFit.contain,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Icon(
-                          LucideIcons.arrowLeft,
-                          size: 18,
+                    const SizedBox(height: 10),
+                    const Text(
+                      "Don't procrastinate, go ahead and add a task",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : Column(
+                children: [
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(
+                        LucideIcons.arrowLeft,
+                        size: 18,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        "swipe for actions",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
                           color: Theme.of(context).colorScheme.primary,
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "swipe for actions",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(
-                            parent: AlwaysScrollableScrollPhysics()),
-                        padding: const EdgeInsets.all(16.0),
-                        itemCount: taskController.tasks.length,
-                        itemBuilder: (context, index) {
-                          final task = taskController.tasks[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: TaskCard(task: task),
-                          );
-                        },
                       ),
-                    ),
-                  ],
-                );
-        }),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                final titleController = TextEditingController();
-                final tagsController = TextEditingController();
-                final descriptionController = TextEditingController();
-                final List<String> items = ["low", "medium", "high"];
-                return AlertDialog(
-                  title: const Text("Add Task"),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextField(
-                        controller: titleController,
-                        decoration: const InputDecoration(
-                          hintText: "Enter task title",
-                        ),
-                      ),
-                      TextField(
-                        controller: descriptionController,
-                        decoration: const InputDecoration(
-                          hintText: "Enter task description here",
-                        ),
-                      ),
-                      DropdownButton<String>(
-                        hint: const Text("Select priority"),
-                        items: items.map((item) {
-                          return DropdownMenuItem(
-                              value: item, child: Text(item));
-                        }).toList(),
-                        onChanged: (value) {
-                          tagsController.text = value!;
-                        },
+                      const SizedBox(
+                        width: 20,
                       ),
                     ],
                   ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        if (titleController.text.trim().isEmpty) {
-                          Get.snackbar("Error", "Task title cannot be empty");
-                          return;
-                        }
-                        var task = TaskModel(
-                          titleController.text.trim(),
-                          DateTime.now(),
-                          false,
-                          tagsController.text.trim(),
-                          descriptionController.text.trim(),
+                  Expanded(
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
+                      padding: const EdgeInsets.all(16.0),
+                      itemCount: taskController.tasks.length,
+                      itemBuilder: (context, index) {
+                        final task = taskController.tasks[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: TaskCard(task: task),
                         );
-                        taskController.addTask(task);
-                        Get.back();
                       },
-                      child: const Text("Add"),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Get.back();
+                  ),
+                ],
+              );
+      }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              final titleController = TextEditingController();
+              final tagsController = TextEditingController();
+              final descriptionController = TextEditingController();
+              final List<String> items = ["low", "medium", "high"];
+              return AlertDialog(
+                title: const Text("Add Task"),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: titleController,
+                      decoration: const InputDecoration(
+                        hintText: "Enter task title",
+                      ),
+                    ),
+                    TextField(
+                      controller: descriptionController,
+                      decoration: const InputDecoration(
+                        hintText: "Enter task description here",
+                      ),
+                    ),
+                    DropdownButton<String>(
+                      hint: const Text("Select priority"),
+                      items: items.map((item) {
+                        return DropdownMenuItem(value: item, child: Text(item));
+                      }).toList(),
+                      onChanged: (value) {
+                        tagsController.text = value!;
                       },
-                      child: const Text("Cancel"),
                     ),
                   ],
-                );
-              },
-            );
-          },
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: const Icon(Icons.add),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      if (titleController.text.trim().isEmpty) {
+                        Get.snackbar("Error", "Task title cannot be empty");
+                        return;
+                      }
+                      var task = TaskModel(
+                        titleController.text.trim(),
+                        DateTime.now(),
+                        false,
+                        tagsController.text.trim(),
+                        descriptionController.text.trim(),
+                      );
+                      taskController.addTask(task);
+                      Get.back();
+                    },
+                    child: const Text("Add"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: const Text("Cancel"),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
         ),
+        child: const Icon(Icons.add),
       ),
     );
   }

@@ -64,6 +64,7 @@ class TimerScreen extends StatelessWidget {
                 CustomBtn(
                   onPressed: timerController.stopTimer,
                   label: ("Cancel"),
+                  textColor: Theme.of(context).colorScheme.onSurface,
                   backgroundColor: Theme.of(context).colorScheme.surface,
                 ),
                 CustomBtn(
@@ -76,9 +77,11 @@ class TimerScreen extends StatelessWidget {
                     horizontal: 40,
                     vertical: 20,
                   ),
+                  elevation: 10,
                 ),
                 CustomBtn(
                     label: "Reset",
+                    textColor: Theme.of(context).colorScheme.onSurface,
                     onPressed: timerController.isPaused.value
                         ? timerController.resetTimer
                         : null,

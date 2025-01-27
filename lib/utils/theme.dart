@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppTheme {
   //  custom colors
@@ -27,8 +28,8 @@ class AppTheme {
     primaryColor: liquidLava,
     scaffoldBackgroundColor: snow,
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.transparent,
-      foregroundColor: snow,
+      backgroundColor: snow,
+      foregroundColor: slateGrey,
     ),
     buttonTheme: const ButtonThemeData(
       buttonColor: liquidLava,
@@ -54,7 +55,7 @@ class AppTheme {
     primaryColor: liquidLava,
     scaffoldBackgroundColor: gluonGrey,
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.transparent,
+      backgroundColor: gluonGrey,
       foregroundColor: snow,
     ),
     buttonTheme: const ButtonThemeData(

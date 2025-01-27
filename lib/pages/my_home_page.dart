@@ -18,47 +18,45 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Obx(() {
-          // Render the screen based on the current index
-          return getSelectedScreen(index: navController.currentIndex.value);
-        }),
-        bottomNavigationBar: Obx(() {
-          return Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(25),
-                topRight: Radius.circular(25),
-              ),
+    return Scaffold(
+      body: Obx(() {
+        // Render the screen based on the current index
+        return getSelectedScreen(index: navController.currentIndex.value);
+      }),
+      bottomNavigationBar: Obx(() {
+        return Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(25),
+              topRight: Radius.circular(25),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: BottomNavigationBar(
-                currentIndex: navController.currentIndex.value,
-                selectedItemColor: Theme.of(context).colorScheme.primary,
-                backgroundColor: Theme.of(context).colorScheme.surface,
-                unselectedItemColor: Theme.of(context).colorScheme.onSurface,
-                elevation: 0,
-                onTap: (index) {
-                  navController.currentIndex.value = index;
-                },
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(LucideIcons.home),
-                    label: "Home",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(LucideIcons.hourglass),
-                    label: "Focus",
-                  ),
-                ],
-              ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: BottomNavigationBar(
+              currentIndex: navController.currentIndex.value,
+              selectedItemColor: Theme.of(context).colorScheme.primary,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              unselectedItemColor: Theme.of(context).colorScheme.onSurface,
+              elevation: 0,
+              onTap: (index) {
+                navController.currentIndex.value = index;
+              },
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(LucideIcons.home),
+                  label: "Home",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(LucideIcons.hourglass),
+                  label: "Focus",
+                ),
+              ],
             ),
-          );
-        }),
-      ),
+          ),
+        );
+      }),
     );
   }
 
