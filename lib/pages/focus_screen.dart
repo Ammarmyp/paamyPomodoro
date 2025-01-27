@@ -24,7 +24,15 @@ class FocusScreen extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        centerTitle: true,
+        // centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              LucideIcons.info,
+            ),
+          )
+        ],
       ),
       body: Padding(
           padding: const EdgeInsets.symmetric(
@@ -244,11 +252,11 @@ class FocusScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Add Focus Session"),
+        title: const Text("Add Focus Session"),
         content: TextField(
           controller: _sessionController,
           keyboardType: TextInputType.number,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             labelText: "Enter minutes",
             border: OutlineInputBorder(),
           ),
@@ -258,7 +266,7 @@ class FocusScreen extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text("Cancel"),
+            child: const Text("Cancel"),
           ),
           TextButton(
             onPressed: () {

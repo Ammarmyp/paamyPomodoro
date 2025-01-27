@@ -95,6 +95,10 @@ class TimerController extends GetxController {
     List<dynamic>? storedSessions =
         timerBox?.get("customSessions", defaultValue: [20, 30, 40]);
 
+    if (storedSessions != null) {
+      customSessions.assignAll(storedSessions.cast<int>());
+    }
+
     if (isRunning.value) {
       int elapsedTime =
           DateTime.now().millisecondsSinceEpoch - (startTime ?? 0);
@@ -123,7 +127,7 @@ class TimerController extends GetxController {
   void addCustomSession(int minutes) {
     if (!customSessions.contains(minutes)) {
       customSessions.add(minutes);
-      timerBox?.put("customSessions", customSessions.toList());
+      saveTimerState();
     }
   }
 
