@@ -6,6 +6,7 @@ import 'package:paamy_pomodorro/controllers/navigation_controller.dart';
 import 'package:paamy_pomodorro/controllers/task_controller.dart';
 import 'package:paamy_pomodorro/controllers/theme_controller.dart';
 import 'package:paamy_pomodorro/controllers/timer_controller.dart';
+import 'package:paamy_pomodorro/models/focus_session.dart';
 import 'package:paamy_pomodorro/models/task_model.dart';
 import 'package:paamy_pomodorro/pages/my_home_page.dart';
 import 'package:paamy_pomodorro/utils/theme.dart';
@@ -14,7 +15,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(TaskModelAdapter());
+  Hive.registerAdapter(FocusSessionAdapter());
   await Hive.openBox<TaskModel>('tasks');
+  await Hive.openBox<FocusSession>('focusSession');
+  await Hive.openBox<DailyStats>('dailyStats');
+  await Hive.openBox<UserGoal>('userGoal');
   runApp(MyApp());
 }
 

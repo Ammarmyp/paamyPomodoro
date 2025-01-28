@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:paamy_pomodorro/models/focus_session.dart';
 
 class TimerController extends GetxController {
   var remainingTime = 1500.obs;
@@ -10,14 +11,23 @@ class TimerController extends GetxController {
   int? startTime;
 
   Box? timerBox;
+  final focusSessionBox = Hive.box<FocusSession>('focusSession');
+  final dailyStatsBox = Hive.box<DailyStats>('dailyStats');
+  final userGoalBox = Hive.box<UserGoal>('userGoal');
 
   RxList<int> customSessions = <int>[].obs;
+  RxList<FocusSession> focusSessions =
+      <FocusSession>[].obs; // Reactive list of focus sessions
+  var dailyStats = DailyStats(date: DateTime.now(), totalFocusMinutes: 0).obs;
+  var userGoal = UserGoal(dailyGoalMinutes: 60).obs; // Default goal: 60 mins
+
   RxInt selectedSession = 0.obs;
 
   @override
   void onInit() async {
     super.onInit();
     timerBox = await Hive.openBox('timerBox');
+
     loadTimerState();
   }
 
@@ -89,6 +99,7 @@ class TimerController extends GetxController {
     isRunning.value = timerBox?.get("isRunning", defaultValue: false) ?? false;
     startTime = timerBox?.get("startTime", defaultValue: null);
     focusTime.value = timerBox?.get("focusTime", defaultValue: 25) ?? 25;
+    focusSessions.value = focusSessionBox.values.toList();
 
     //*sessions
 
@@ -109,6 +120,19 @@ class TimerController extends GetxController {
         startTimer();
       }
     }
+
+    //* load today's stats
+    final today = DateTime.now();
+    final todayDate = DateTime(today.year, today.month, today.day);
+    final todayStats = dailyStatsBox.get(todayDate.toString());
+
+    dailyStats.value =
+        todayStats ?? DailyStats(date: todayDate, totalFocusMinutes: 0);
+
+    //* user goals
+
+    userGoal.value =
+        userGoalBox.get("dailyGoal") ?? UserGoal(dailyGoalMinutes: 120);
   }
 
   void setFocusTime(int minutes) {
@@ -116,6 +140,54 @@ class TimerController extends GetxController {
     remainingTime.value = minutes * 60;
 
     saveTimerState();
+  }
+
+  void saveFocusSession(DateTime startTime, int durationInMinutes) async {
+    final today = DateTime.now();
+    final todayDate = DateTime(today.year, today.month, today.day);
+    // Save session
+    final session = FocusSession(
+      startTime: startTime,
+      durationInMinutes: durationInMinutes,
+      date: todayDate,
+    );
+
+    await focusSessionBox.add(session);
+
+    focusSessions.add(session);
+
+    //* update daily stats
+
+    if (dailyStats.value.date != todayDate) {
+      dailyStats.value = DailyStats(date: todayDate, totalFocusMinutes: 0);
+    }
+
+    dailyStats.value.totalFocusMinutes += durationInMinutes;
+    dailyStatsBox.put(todayDate.toString(), dailyStats.value);
+  }
+
+  void setDailyGoal(int minutes) {
+    final goal = UserGoal(dailyGoalMinutes: minutes);
+    userGoalBox.put("dailyGoal", goal);
+    userGoal.value = goal;
+
+    update();
+  }
+
+  bool isGoalAchieved() {
+    return dailyStats.value.totalFocusMinutes >=
+        userGoal.value.dailyGoalMinutes;
+  }
+
+  //* WEEKLY STATS
+
+  List<DailyStats> getWeeklyStats() {
+    final today = DateTime.now();
+    final startOfWeek = today.subtract(Duration(days: today.weekday - 1));
+
+    return dailyStatsBox.values
+        .where((stat) => stat.date.isAfter(startOfWeek))
+        .toList();
   }
 
   void updateTimerForSession(int sessionIndex) {
