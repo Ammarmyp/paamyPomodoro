@@ -46,6 +46,7 @@ dependencies:
   lucide_icons: ^0.257.0
   font_awesome_flutter: ^10.8.0
   percent_indicator: ^4.2.4
+  modal_bottom_sheet: ^3.0.0
 
 flutter_launcher_icons:
   android: "launcher_icon"

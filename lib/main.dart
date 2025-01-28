@@ -19,7 +19,7 @@ void main() async {
   await Hive.openBox<TaskModel>('tasks');
   await Hive.openBox<FocusSession>('focusSession');
   await Hive.openBox<DailyStats>('dailyStats');
-  await Hive.openBox<UserGoal>('userGoal');
+  await Hive.openBox('userGoal');
   runApp(MyApp());
 }
 

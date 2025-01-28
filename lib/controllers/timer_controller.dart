@@ -8,18 +8,18 @@ class TimerController extends GetxController {
   var focusTime = 25.obs;
   var sliderValue = 10.obs;
   var isPaused = false.obs;
+  RxInt userGoal = 50.obs;
   int? startTime;
 
   Box? timerBox;
   final focusSessionBox = Hive.box<FocusSession>('focusSession');
   final dailyStatsBox = Hive.box<DailyStats>('dailyStats');
-  final userGoalBox = Hive.box<UserGoal>('userGoal');
+  final userGoalBox = Hive.box('userGoal');
 
   RxList<int> customSessions = <int>[].obs;
   RxList<FocusSession> focusSessions =
       <FocusSession>[].obs; // Reactive list of focus sessions
   var dailyStats = DailyStats(date: DateTime.now(), totalFocusMinutes: 0).obs;
-  var userGoal = UserGoal(dailyGoalMinutes: 60).obs; // Default goal: 60 mins
 
   RxInt selectedSession = 0.obs;
 
@@ -130,9 +130,8 @@ class TimerController extends GetxController {
         todayStats ?? DailyStats(date: todayDate, totalFocusMinutes: 0);
 
     //* user goals
-
-    userGoal.value =
-        userGoalBox.get("dailyGoal") ?? UserGoal(dailyGoalMinutes: 120);
+    var goal = userGoalBox.get("dailyGoal", defaultValue: 40);
+    userGoal.value = goal;
   }
 
   void setFocusTime(int minutes) {
@@ -167,16 +166,12 @@ class TimerController extends GetxController {
   }
 
   void setDailyGoal(int minutes) {
-    final goal = UserGoal(dailyGoalMinutes: minutes);
-    userGoalBox.put("dailyGoal", goal);
-    userGoal.value = goal;
-
-    update();
+    userGoalBox.put("dailyGoal", minutes);
+    userGoal.value = minutes;
   }
 
   bool isGoalAchieved() {
-    return dailyStats.value.totalFocusMinutes >=
-        userGoal.value.dailyGoalMinutes;
+    return dailyStats.value.totalFocusMinutes >= userGoal.value;
   }
 
   //* WEEKLY STATS

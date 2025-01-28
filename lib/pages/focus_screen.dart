@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:paamy_pomodorro/components/custom_btn.dart';
+import 'package:paamy_pomodorro/components/daily_goal.dart';
 import 'package:paamy_pomodorro/controllers/stat_controller.dart';
 import 'package:paamy_pomodorro/controllers/timer_controller.dart';
 import 'package:paamy_pomodorro/pages/timer_screen.dart';
@@ -16,6 +18,7 @@ class FocusScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text(
           'Focus Mode',
@@ -27,6 +30,22 @@ class FocusScreen extends StatelessWidget {
         ),
         // centerTitle: true,
         actions: [
+          IconButton(
+            icon: const Icon(
+              LucideIcons.rocket,
+            ),
+            onPressed: () {
+              // Show the bottom sheet when the button is pressed
+              showMaterialModalBottomSheet(
+                backgroundColor: Theme.of(context).colorScheme.surface,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                context: context,
+                builder: (context) => DailyGoal(),
+              );
+            },
+          ),
           IconButton(
             onPressed: () {},
             icon: const Icon(
@@ -48,6 +67,44 @@ class FocusScreen extends StatelessWidget {
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Obx(() {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Icon(
+                              LucideIcons.rocket,
+                              size: 15,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "Daily goal ",
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary),
+                            ),
+                            Text(
+                              "${timerController.userGoal.value}",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface),
+                            ),
+                            Text(
+                              " min",
+                              style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary),
+                            ),
+                          ],
+                        );
+                      }),
                       const SizedBox(
                         height: 70,
                       ),
@@ -165,7 +222,6 @@ class FocusScreen extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                      const Text("Focus sessions from the new list"),
 
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -342,6 +398,7 @@ class FocusScreen extends StatelessWidget {
               if (minutes > 0) {
                 timerController.addCustomSession(minutes);
                 // timerController.saveFocusSession(DateTime.now(), minutes);
+                timerController.setDailyGoal(minutes);
                 Navigator.pop(context);
               }
             },
